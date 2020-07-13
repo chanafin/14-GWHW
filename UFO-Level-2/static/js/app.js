@@ -1,11 +1,7 @@
 
 var tbody = d3.select('#main-table')
-
 var filterbutton = d3.select('#filter-btn');
-filterbutton.on('click', tablefilter);
-
 var clearbutton = d3.select('#clear-filter-btn')
-clearbutton.on('click', clearfilter)
 
 function build(table){
     var row = tbody.append('tr')
@@ -19,45 +15,13 @@ function build(table){
 function tablefilter(){
     tbody.html("");
     var filtereddata = data
-/*
-    var idarray = ['datetime','city','state','shape']
-    idarray.forEach(htmlID => {
-        var idElement = d3.select(`#${htmlID}`)
-        var idValue = idElement.property('value') 
-        console.log(`tabe length before filtering: ${filtereddata.length}`)//debug 
-        console.log(`value to be filtered by: ${idValue}`)//debug
-        console.log(`object key to use: ${htmlID}`)//debug
-        if (idValue !="") {
-            filtereddata = filtereddata.filter(sighting => sighting.htmlID == idValue)
-            //console.log(`this is the object: ${sighting}`)//debug
-            console.log(`table lenght after filtering: ${filtereddata.length}`)//debug
-        } 
-    })    
-
-    */
-    var dateElement = d3.select('#datetime')
-    var dateValue = dateElement.property('value')  
-    if (dateValue !="") {
-        filtereddata = filtereddata.filter(sighting => sighting.datetime == dateValue)
-    }
-
-    var cityElement = d3.select('#city')
-    var cityValue = cityElement.property('value')
-    if (cityValue !=""){
-        filtereddata = filtereddata.filter(sighting => sighting.city == cityValue)
-    }
-
-    var stateElement = d3.select('#state')
-    var stateValue = stateElement.property('value')
-    if (stateValue != ""){
-        filtereddata = filtereddata.filter(sighting => sighting.state == stateValue)
-    }
-
-    var shapeElement = d3.select('#shape')
-    var shapeValue = shapeElement.property('value')
-    if (shapeValue != ""){
-        filtereddata = filtereddata.filter(sighting => sighting.shape == shapeValue)
-    } 
+    var id_array = ['datetime','city','state','shape']
+    id_array.forEach(ID => {
+        var id_Element = d3.select(`#${ID}`)
+        var id_Value = id_Element.property('value') 
+        if (id_Value !="") {
+            filtereddata = filtereddata.filter(sighting =>sighting[`${ID}`] == id_Value)} 
+    });  
     filtereddata.forEach(build)
 };
 
@@ -68,6 +32,8 @@ function clearfilter(){
     filtereddata = []
 };
 
-data.forEach(sightingobjects => {
-  build(sightingobjects)
+data.forEach(table => {
+  build(table)
 });
+filterbutton.on('click', tablefilter);
+clearbutton.on('click', clearfilter);
