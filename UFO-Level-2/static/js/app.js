@@ -1,21 +1,21 @@
 var tbody = d3.select('#main-table')
+
 var filterbutton = d3.select('#filter-btn');
-filterbutton.on('click', runtablefilter);
+filterbutton.on('click', tablefilter);
+
 var clearbutton = d3.select('#clear-filter-btn')
-clearbutton.on('click', runclearfilter)
+clearbutton.on('click', clearfilter)
 
-
-function buildtable(tableinfo){
+function build(table){
     var row = tbody.append('tr')
-    var sightingvalues = Object.values(tableinfo)
-    sightingvalues.forEach(sightingvalue => {
+    var sightingValue = Object.values(table)
+    sightingValue.forEach(sighting => {
        var cell = row.append('td')
-       cell.text(sightingvalue)
+       cell.text(sighting)
    }); 
-   
 };
 
-function runtablefilter(){
+function tablefilter(){
     tbody.html("");
     var filtereddata = data
 /*
@@ -33,7 +33,7 @@ function runtablefilter(){
         } 
     })    
 
-*/
+    */
     var dateElement = d3.select('#datetime')
     var dateValue = dateElement.property('value')  
     if (dateValue !="") {
@@ -57,18 +57,16 @@ function runtablefilter(){
     if (shapeValue != ""){
         filtereddata = filtereddata.filter(sighting => sighting.shape == shapeValue)
     } 
-    
-    filtereddata.forEach(buildtable)
+    filtereddata.forEach(build)
 };
 
-function runclearfilter(){
+function clearfilter(){
     tbody.html("");
-    data.forEach(buildtable)
+    data.forEach(build)
     document.getElementById("my-form").reset();
     filtereddata = []
 };
 
-
 data.forEach(sightingobjects => {
-  buildtable(sightingobjects)
+  build(sightingobjects)
 });
